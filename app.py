@@ -13,7 +13,8 @@ def homepage():
 @app.route('/index/')
 def index():
 	"""Main page displaying restaurants"""
-	return render_template('index.html')
+	title = "Welp: Restaurants"
+	return render_template('index.html', title=title)
 
 
 if __name__ == '__main__':
