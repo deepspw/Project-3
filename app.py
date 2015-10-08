@@ -16,6 +16,11 @@ def index():
 	title = "Welp: Restaurants"
 	return render_template('index.html', title=title)
 
+@app.route('/<int:restaurant_id>/menu/')
+def menu(restaurant_id):
+    """Displays menu of choosen restaurant"""
+    title = "Welp: Restaurant Menu"
+    return render_template('index.html', title=title)
 
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'
