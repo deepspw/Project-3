@@ -28,14 +28,14 @@ class GetPlaces:
         jsonFile = r.json()
         jStr = json.dumps(jsonFile, sort_keys=True, indent=4)
         jDict = json.loads(jStr)
-        jDict = jDict['results'][0]
+        jDict = jDict['results']
         with open("my_places.json", 'w') as fp:
             json.dump(jsonFile, fp)
         return jDict
+
         
 mysearch = GetPlaces(ACCESS_TOKEN) # to use your own api token replace ACCESS_TOKEN with your own in a string
 jDict = mysearch.jsonRequest()
 
-print len(jDict)
-print jDict
-print type(jDict)
+for e in jDict:
+    print e['name']
