@@ -3,6 +3,7 @@
 import sys
 import requests
 import json
+import shutil
 sys.path.append("../..")
 from gAPI import ACCESS_TOKEN # comment me out if using your own api token
 
@@ -33,9 +34,26 @@ class GetPlaces:
             json.dump(jsonFile, fp)
         return jDict
 
-        
+    def getImage(self):
+        jDict = self.jsonRequest()
+        photos = jDict[1]['photos'][0]["photo_reference"]
+        rstring = "https://maps.googleapis.com/maps/api/place/photo?" + "maxwidth=400" + "&photoreference=" + photos + self.key
+        photo = requests.get(rstring, stream=True)
+        if photo.status_code == 200:
+            with open("image.png", 'wb') as filewrite:
+                for chunk in photo:
+                    filewrite.write(chunk)
+        print rstring
+        print photo_url
 mysearch = GetPlaces(ACCESS_TOKEN) # to use your own api token replace ACCESS_TOKEN with your own in a string
 jDict = mysearch.jsonRequest()
 
+
+
 for e in jDict:
-    print e['name']
+    print e['name'] 
+    print e['id'] 
+    print e['types']
+
+
+mysearch.getImage()
