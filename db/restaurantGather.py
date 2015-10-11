@@ -10,7 +10,7 @@ class GetPlaces:
     """ Takes various info and returns results from the google places api. """
     def __init__(self, token):
         self.url_base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" # ? indicates start of variables
-        self.location = "location=" + raw_input("location in 'lon,lat' format > ") # location does not need & as it begins the variable string
+        self.location = "location=" + raw_input("location in 'lon,lat'(decimal) format > ") # location does not need & as it begins the variable string
         self.radius = "&radius=" + raw_input("radius in meters (up to 50000) > ")
         self.types = "&types=" + raw_input("type > ")
         self.name = "&name=" + raw_input("keyword > ")
@@ -26,9 +26,16 @@ class GetPlaces:
         r = requests.get(target_url)
         print "Status code recieved [" + str(r.status_code) + "] "
         jsonFile = r.json()
-        with open("my_places.txt", 'w') as fp:
+        jStr = json.dumps(jsonFile, sort_keys=True, indent=4)
+        jDict = json.loads(jStr)
+        jDict = jDict['results'][0]
+        with open("my_places.json", 'w') as fp:
             json.dump(jsonFile, fp)
-
+        return jDict
         
 mysearch = GetPlaces(ACCESS_TOKEN) # to use your own api token replace ACCESS_TOKEN with your own in a string
-mysearch.jsonRequest()
+jDict = mysearch.jsonRequest()
+
+print len(jDict)
+print jDict
+print type(jDict)
