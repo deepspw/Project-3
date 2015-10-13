@@ -6,6 +6,10 @@ import json
 import shutil
 sys.path.append("../..")
 from gAPI import ACCESS_TOKEN # comment me out if using your own api token
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from db_setup import Restaurant, Base, MenuItem
+
 
 class GetPlaces:
     """ Takes various info and returns results from the google places api. """
@@ -18,10 +22,12 @@ class GetPlaces:
         self.key = "&key=" + token
         
     def makeURL(self):
+        """ Creates a url to be used with the google places api. """
         url_final = self.url_base + self.location + self.radius + self.types + self.name + self.key
         return url_final
         
     def jsonRequest(self):
+        """ Sends json request to google api. Returns dict of  """
         target_url = self.makeURL()
         print "url sent = [" + target_url + "] "
         r = requests.get(target_url)
@@ -49,16 +55,24 @@ class GetPlaces:
             except:                
                 print "No Image"
             n += 1
-        print rstring
+
 mysearch = GetPlaces(ACCESS_TOKEN) # to use your own api token replace ACCESS_TOKEN with your own in a string
 jDict = mysearch.jsonRequest()
 
 
 
-for e in jDict:
-    print e['name'] 
-    print e['id'] 
-    print e['types']
-
-
 mysearch.getImage()
+
+engine = create_engine('sqlite:///restaurant.db')
+
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+
+session = DBSession()
+
+for e in jDict:
+    restaurant = Restaurant(name=e['name'], types=str(e['types']), image=str(e['id']))
+    session.add(restaurant) # Probobly better to make a separate table for types rather than using str
+    session.commit()
+

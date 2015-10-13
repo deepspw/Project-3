@@ -15,8 +15,11 @@ class Restaurant(Base):
 	name = Column(
 		String(80), nullable = False)
 
+	types = Column(
+		String(250))
+
 	image = Column(
-		String(80))
+		String(250))
 
 class MenuItem(Base):
 	__tablename__ = 'menu_item'
