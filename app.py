@@ -23,6 +23,8 @@ def menu(restaurant_id):
     return render_template('index.html', title=title)
 
 if __name__ == '__main__':
+# Make sure to use a remote secret key on a live
+# server in order to keep the site secure.
 	app.secret_key = 'super_secret_key'
 	app.debug = True
 	app.run(host = '0.0.0.0', port = 5000)

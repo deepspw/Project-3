@@ -15,9 +15,6 @@ class Restaurant(Base):
 	name = Column(
 		String(80), nullable = False)
 
-	types = Column(
-		String(250))
-
 	image = Column(
 		String(250))
 
@@ -46,7 +43,7 @@ class MenuItem(Base):
 		Integer, ForeignKey('restaurant.id'))
 
 	restaurant = relationship(Restaurant)
-
+    
 	@property
 	def serialize(self):
 		return {
@@ -57,6 +54,23 @@ class MenuItem(Base):
 			'price' : self.price,
 			'image' : self.image,
 		}
+
+    
+class Tags(Base):
+    __tablename__ = 'tags'
+    
+    id = Column(
+        Integer, primary_key = True)
+    
+    restaurant_id = Column(
+        Integer, ForeignKey('restaurant.id'))
+        
+    tag = Column(
+        String(25))
+    
+    restaurant = relationship(Restaurant)
+
+        
 
 engine = create_engine(
 	'sqlite:///restaurant.db')
