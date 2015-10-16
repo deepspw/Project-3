@@ -1,4 +1,5 @@
 import sys
+import os.path
 from sqlalchemy import Column, ForeignKey, Integer, String,\
 	create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -16,6 +17,9 @@ class Restaurant(Base):
 		String(80), nullable = False)
 
 	image = Column(
+		String(250))
+
+	place_id = Column(
 		String(250))
 
 class MenuItem(Base):
@@ -74,6 +78,7 @@ class Tags(Base):
 
 engine = create_engine(
 	'sqlite:///restaurant.db')
+
 
 Base.metadata.create_all(engine)
 
