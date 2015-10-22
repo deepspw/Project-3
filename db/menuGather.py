@@ -1,3 +1,5 @@
+# Initial attempt at scraping for menu items using bs4
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -30,7 +32,10 @@ website = url["website"]
 menurequest = requests.get(website)
 menurequest = menurequest.text
 soup = BeautifulSoup(menurequest, "html.parser")
-print soup.text
+
+for link in soup.find_all('a'):
+	print link.get_text('menu')
+
 
 # div class="Ny qkb"
 #	<a href=

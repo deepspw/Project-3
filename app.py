@@ -2,6 +2,12 @@ from flask import Flask, render_template, url_for, redirect,\
 	request, flash, jsonify 
 from sqlalchemy import create_engine, and_, asc, desc, func, update
 from sqlalchemy.orm import sessionmaker
+from db.db_setup import Base, Restaurant, MenuItem, Tags
+
+engine = create_engine('sqlite:///db/restaurant.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 app = Flask(__name__)
 
@@ -14,7 +20,10 @@ def homepage():
 def index():
 	"""Main page displaying restaurants"""
 	title = "Welp: Restaurants"
-	return render_template('index.html', title=title)
+	restaurant = session.query(Restaurant).all()
+
+	return render_template('index.html', title=title,\
+		restaurant=restaurant)
 
 @app.route('/<int:restaurant_id>/menu/')
 def menu(restaurant_id):

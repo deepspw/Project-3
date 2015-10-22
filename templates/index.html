@@ -24,6 +24,9 @@
 					<div class="contents">
 						<h1>Title</h1>
 						<a href="#">link</a>
+						{% for i in restaurant %}
+						<a>{{ i.name }}</a>
+						{% endfor %}
 					</div>
 				</div>
 				<div class="col-md-2"></div>

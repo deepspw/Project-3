@@ -1,9 +1,8 @@
-import sys
-import os.path
 from sqlalchemy import Column, ForeignKey, Integer, String,\
 	create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+import os.path
 
 Base = declarative_base()
 
@@ -75,10 +74,8 @@ class Tags(Base):
     restaurant = relationship(Restaurant)
 
         
-
-engine = create_engine(
-	'sqlite:///restaurant.db')
-
-
-Base.metadata.create_all(engine)
+if not os.path.isfile('db/restaurant.db'):
+	engine = create_engine(
+		'sqlite:///restaurant.db')
+	Base.metadata.create_all(engine)
 
