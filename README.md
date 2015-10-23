@@ -25,3 +25,7 @@ to start the flask web server. Access by going onto host
 specified in the app.py app.run().
 
 
+### Urgent fixes
+
+    - image naming format
+    - bootstrap image grid

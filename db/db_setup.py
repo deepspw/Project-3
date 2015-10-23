@@ -16,7 +16,7 @@ class Restaurant(Base):
 		String(80), nullable = False)
 
 	image = Column(
-		String(250))
+		String(250), server_default='noimage')
 
 	place_id = Column(
 		String(250))

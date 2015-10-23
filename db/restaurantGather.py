@@ -35,7 +35,7 @@ class GetPlaces:
         # or by uncomenting the raw_input and removing 
         # the current lon/lat if you wish to enter 
         # enter via command line.
-        self.location = "location=" + "51.5,-0.116"#raw_input("location in 'lon,lat'(decimal) format > ") 
+        self.location = "location=" + "51.528836,-0.1656"#raw_input("location in 'lon,lat'(decimal) format > ") 
         self.radius = "&radius=" + raw_input("radius in meters (up to 50000) > ")
         self.types = "&types=" + raw_input("type > ")
         self.name = "&name=" + raw_input("keyword > ")
@@ -81,15 +81,17 @@ class GetPlaces:
                         as filewrite:
                         for chunk in photo:
                             filewrite.write(chunk)
-            except:                
+            except:
+                jDict[n]['id'] = "NoImage"
                 print "No Image"
             n += 1
+        return jDict
 
             
 # Creates mysearch object using GetPlaces() with users google places api key.
 mysearch = GetPlaces(ACCESS_TOKEN)
 jDict = mysearch.jsonRequest()
-mysearch.getImage()
+jDict = mysearch.getImage()
 
 # Creates our session needed for adding items to the database.
 engine = create_engine('sqlite:///restaurant.db')
