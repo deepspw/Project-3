@@ -11,22 +11,27 @@
 </head>
 <body style='background-color: #F2EEEC'>
 		<nav class="navbar navbar-custom navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-logo" href=''>
-					<img alt="welp!" height='60' width'120' src="{{ url_for('static', filename='images/welp.png') }}">
-				</div>
-			</div>
+            <div class="navbar-logo" href=''>
+                <img alt="welp!" height='60' width'120' src="{{ url_for('static', filename='images/welp.png') }}">
+            </div>
 		</nav>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
 					<div class="contents">
-						<h1>Title</h1>
-						<a href="#">link</a>
-						{% for i in restaurant %}
-						<a>{{ i.name }}</a>
-						{% endfor %}
+                        <div>
+                            <div class="row">
+                                {% for i in restaurant %}
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                    <a href="{{ i.id }}">{{ i.name }}</a>
+                                    <img alt="{{ i.name }}" src="../static/images/image{{ i.image }}.png" style="max-width:240px; max-height:200px;">
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
 					</div>
 				</div>
 				<div class="col-md-2"></div>
