@@ -18,12 +18,12 @@ def homepage():
 
 @app.route('/index/')
 def index():
-	"""Main page displaying restaurants"""
-	title = "Welp: Restaurants"
-	restaurant = session.query(Restaurant).all()
-
-	return render_template('index.html', title=title,\
-		restaurant=restaurant)
+    """Main page displaying restaurants"""
+    title = "Welp: Restaurants"
+    restaurant = session.query(Restaurant).all()
+    x = 0
+    return render_template('index.html', title=title,\
+        restaurant=restaurant, x=x)
 
 @app.route('/<int:restaurant_id>/menu/')
 def menu(restaurant_id):

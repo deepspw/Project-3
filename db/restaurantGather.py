@@ -77,7 +77,7 @@ class GetPlaces:
                     + "maxwidth=400" + "&photoreference=" + photos + self.key
                 photo = requests.get(rstring, stream=True)
                 if photo.status_code == 200:
-                    with open("../static/images/image" + str(jDict[n]['id']) + ".png", 'wb')\
+                    with open("../static/images/" + str(jDict[n]['id']) + ".png", 'wb')\
                         as filewrite:
                         for chunk in photo:
                             filewrite.write(chunk)

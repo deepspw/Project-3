@@ -27,5 +27,4 @@ specified in the app.py app.run().
 
 ### Urgent fixes
 
-    - image naming format
     - bootstrap image grid
