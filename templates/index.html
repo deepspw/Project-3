@@ -11,29 +11,39 @@
 </head>
 <body style='background-color: #F2EEEC'>
 		<nav class="navbar navbar-custom navbar-fixed-top">
-            <div class="navbar-logo" href=''>
-                <img alt="welp!" height='60' width'120' src="{{ url_for('static', filename='images/welp.png') }}">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="padding-left:30px;">
+                    <img alt="welp!" height='60' width='120' src="{{ url_for('static', filename='images/welp.png') }}">
+                </a>
+                <a href="#" class="navbar-right" style="color:white; padding-top:40px;"><b>link</b></a>
             </div>
 		</nav>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<div class="contents">
-                        <div>
-                            <div class="row">
-                                {% for i in restaurant %}
-                                <div class="col-md-4">
-                                    <div class="thumbnail" style="height:240px;">
-                                    <a href="{{ i.id }}">{{ i.name }}</a>
-                                    <img alt="{{ i.name }}" src="../static/images/{{ i.image }}.png" style="max-width:240px; max-height:200px;">
-                                    </div>
-                                </div>
-                                {% endfor %}
+				<div class="contents">
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                            Hello! Welcome to Welp!
                             </div>
                         </div>
+                    <div>
+                        <div class="row">
+                            {% for i in restaurant %}
+                            <div class="col-md-4">
+                                <div class="thumbnail" style="height:240px;">
+                                <a href="{{ i.id }}">{{ i.name }}</a>
+                                <img alt="{{ i.name }}" src="../static/images/{{ i.image }}.png" style="width:100%;max-width:240px; max-height:200px;">
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
 					</div>
 				</div>
+                </div>
 				<div class="col-md-2"></div>
 			</div>
 		</div>
