@@ -4,6 +4,13 @@ from sqlalchemy import create_engine, and_, asc, desc, func, update
 from sqlalchemy.orm import sessionmaker
 from db.db_setup import Base, Restaurant, MenuItem, Tags
 
+# oAuth imports
+from flask import session as login_session
+import random, string
+import sys
+sys.path.append("..")
+from gAPI import CLIENT_TOKEN
+
 engine = create_engine('sqlite:///db/restaurant.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -12,11 +19,6 @@ session = DBSession()
 app = Flask(__name__)
 
 @app.route('/')
-def homepage():
-	"""Takes user to index"""
-	return redirect(url_for('index'))
-
-@app.route('/index/')
 def index():
     """Main page displaying restaurants"""
     title = "Welp: Restaurants"
@@ -24,6 +26,22 @@ def index():
     x = 0
     return render_template('index.html', title=title,\
         restaurant=restaurant, x=x)
+
+@app.route('/login')
+def showLogin():
+    state = ''.join(random.choice(string.ascii_uppercase +\
+        string.digits) for x in xrange(32))
+    login_session['state'] = state
+    return render_template('login.html', CLIENT_TOKEN = CLIENT_TOKEN)
+
+@app.route('/<int:restaurant_id>/edit/')
+def editRestaurant(restaurant_id):
+    """ Edit restaurant """
+    restaurant = session.query(Restaurant).filter_by(restaurant_id = id)
+    restaurant_name = restaurant.name
+    title = "Welp: Edit restaurant" + str(restaurant_name)
+    return render_template('index.html', title=title,\
+        restaurant=restaurant)
 
 @app.route('/<int:restaurant_id>/menu/')
 def menu(restaurant_id):
