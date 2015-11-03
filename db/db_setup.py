@@ -74,8 +74,9 @@ class Tags(Base):
     restaurant = relationship(Restaurant)
 
         
+
 if not os.path.isfile('db/restaurant.db'):
-	engine = create_engine(
-		'sqlite:///restaurant.db')
-	Base.metadata.create_all(engine)
+    engine = create_engine(
+        'sqlite:///db/restaurant.db')
+    Base.metadata.create_all(engine)
 

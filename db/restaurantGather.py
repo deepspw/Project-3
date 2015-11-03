@@ -35,10 +35,10 @@ class GetPlaces:
         # or by uncomenting the raw_input and removing 
         # the current lon/lat if you wish to enter 
         # enter via command line.
-        self.location = "location=" + "51.528836,-0.1656"#raw_input("location in 'lon,lat'(decimal) format > ") 
-        self.radius = "&radius=" + raw_input("radius in meters (up to 50000) > ")
-        self.types = "&types=" + raw_input("type > ")
-        self.name = "&name=" + raw_input("keyword > ")
+        self.location = "location=" + "51.528836,-0.1656" #raw_input("location in 'lon,lat'(decimal) format > ") 
+        self.radius = "&radius=" + "3000" #raw_input("radius in meters (up to 50000) > ")
+        self.types = "&types=" + "food" #raw_input("type > ")
+        self.name = "&name=" + "" #raw_input("keyword > ")
         self.key = "&key=" + token
         
     def makeURL(self):
@@ -77,7 +77,7 @@ class GetPlaces:
                     + "maxwidth=400" + "&photoreference=" + photos + self.key
                 photo = requests.get(rstring, stream=True)
                 if photo.status_code == 200:
-                    with open("../static/images/" + str(jDict[n]['id']) + ".png", 'wb')\
+                    with open("static/images/" + str(jDict[n]['id']) + ".png", 'wb')\
                         as filewrite:
                         for chunk in photo:
                             filewrite.write(chunk)
@@ -94,7 +94,7 @@ jDict = mysearch.jsonRequest()
 jDict = mysearch.getImage()
 
 # Creates our session needed for adding items to the database.
-engine = create_engine('sqlite:///restaurant.db')
+engine = create_engine('sqlite:///db/restaurant.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
