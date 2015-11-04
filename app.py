@@ -23,16 +23,11 @@ def index():
     """Main page displaying restaurants"""
     title = "Welp: Restaurants"
     restaurant = session.query(Restaurant).all()
-    x = 0
-    return render_template('index.html', title=title,\
-        restaurant=restaurant, x=x)
-
-@app.route('/login')
-def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase +\
         string.digits) for x in xrange(32))
     login_session['state'] = state
-    return render_template('login.html', CLIENT_TOKEN = CLIENT_TOKEN)
+    return render_template('index.html', title=title,\
+        restaurant=restaurant, CLIENT_TOKEN = CLIENT_TOKEN)
 
 @app.route('/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
