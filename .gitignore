@@ -1,0 +1,6 @@
+*.db
+*.png
+*.json
+*.pyc
+gAPI.*
+*.json

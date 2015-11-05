@@ -56,10 +56,11 @@
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                            Hello! Welcome to Welp!
+                                <div id="result"></div>
                             </div>
                         </div>
-                    <div>
+                        </div>
+
                         <div class="row">
                             {% for i in restaurant %}
                             <div class="col-md-4">
@@ -72,7 +73,7 @@
                             </div>
                             {% endfor %}
                         </div>
-                    </div>
+
 					</div>
 				</div>
                 </div>
@@ -80,6 +81,33 @@
 			</div>
 		</div>
 	</div>
+    <script>
+    function signInCallback(authResult) {
+        if (authResult['code']) {
+            $('#signinButton').attr('style', 'display: none;');
+            $.ajax({
+                type: 'POST',
+                url: '/gconnect?state={{ STATE }}',
+                processData: false,
+                contentType: 'application/octet-stream; charset=utf-8',
+                data: authResult['code'],
+                success: function(result) {
+                    if(result){
+                        $('#result').html('Login Successfull!</br>' + result + '</br>Redirecting...')
+                        setTimeout(function() {
+                            window.location.href = "/restaurant";
+                            }, 4000);
+                    } else if (authResult['error']) {
+                        console.log('There was an error: ' + authResult['error']);
+                    } else {
+                        $('#result').html('Failed to make a server-side call. Check your configeration and console.');
+                        }
+                    }
+            });
+            }
+    }
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
