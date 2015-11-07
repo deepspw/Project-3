@@ -38,7 +38,8 @@ def index():
         string.digits) for x in xrange(32))
     login_session['state'] = state
     return render_template('index.html', title=title,\
-        restaurant=restaurant, CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
+        restaurant=restaurant,\
+        CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
 
 @app.route('/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
@@ -54,6 +55,19 @@ def menu(restaurant_id):
     """Displays menu of choosen restaurant"""
     title = "Welp: Restaurant Menu"
     return render_template('index.html', title=title)
+    
+# @app.route('/tagged/<int:tag_id>/')
+# def tagged(tag_id):
+    # """Displays a list of restaurants with
+    # the selected tag. """
+    # title = "title"
+    # q = session.query(Restaurant).\
+            # join(Tags)
+    # print "stufff"
+    # tagged_restaurants = session.query(q).filter_by(Restaurant.id == tag_id)
+            
+    # return render_template('index.html', title=title,\
+        # tagged_restaurants = tagged_restaurants)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
