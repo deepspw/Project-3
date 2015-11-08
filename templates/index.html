@@ -28,12 +28,11 @@
                 </div>
             
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav" style="background-color:#C21511;">
+                <ul class="nav navbar-nav navbar-right" style="background-color:#C21511;">
                     <li class="active"><a href="/edit/" style="color: white;">Edit<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
                     
                     <!-- Google Sign in -->
-                    <li>
+                    <li id=GoogleSignIn>
                         <span class="g-signin"
                         data-scope="openid email"
                         data-clientid="{{ CLIENT_TOKEN }}"
@@ -57,6 +56,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>
+                                <div id="restricted"></div>
                                 </p>
                                 <div id="result"></div>
                             </div>
@@ -109,7 +109,14 @@
             }
     }
     </script>
-
+    <script>
+    if ("{{ username }}") {
+        document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
+    }
+    else {
+        console.log('false');
+    }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

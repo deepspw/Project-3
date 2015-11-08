@@ -37,6 +37,11 @@ def index():
     state = ''.join(random.choice(string.ascii_uppercase +\
         string.digits) for x in xrange(32))
     login_session['state'] = state
+    if 'username' in login_session:
+        username = login_session['username']
+        picture = login_session['picture']
+        return render_template('index.html', title=title,\
+            restaurant = restaurant, CLIENT_TOKEN = CLIENT_TOKEN, STATE = state, username = username, picture = picture)
     return render_template('index.html', title=title,\
         restaurant=restaurant,\
         CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
