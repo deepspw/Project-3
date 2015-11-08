@@ -32,7 +32,7 @@
                     <li class="active"><a href="/edit/" style="color: white;">Edit<span class="sr-only">(current)</span></a></li>
                     
                     <!-- Google Sign in -->
-                    <li id=GoogleSignIn>
+                    <li id='GoogleSignIn'>
                         <span class="g-signin"
                         data-scope="openid email"
                         data-clientid="{{ CLIENT_TOKEN }}"
@@ -114,7 +114,7 @@
         document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
     }
     else {
-        console.log('false');
+        console.log('Not logged in');
     }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

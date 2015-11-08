@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css')}}">
     <style type="text/css">body {padding-top: 75px;}</style>
-	<link rel="icon"
-		type="image/png"
-		href="{{ url_for( 'static', filename='images/logo.png')}}">
-	<title>{{ title }}</title>
+    <link rel="icon"
+        type="image/png"
+        href="{{ url_for( 'static', filename='images/logo.png')}}">
+    <title>{{ title }}</title>
 </head>
 <body style='background-color: #F2EEEC'>
         <!-- Navbar -->
-		<nav class="navbar navbar-custom navbar-fixed-top">
+        <nav class="navbar navbar-custom navbar-fixed-top">
             <div class="container-fluid">
                 <!-- Collapsed -->
                 <div class="navbar-header">
@@ -28,12 +28,11 @@
                 </div>
             
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav" style="background-color:#C21511;">
+                <ul class="nav navbar-nav navbar-right" style="background-color:#C21511;">
                     <li class="active"><a href="/edit/" style="color: white;">Edit<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
                     
                     <!-- Google Sign in -->
-                    <li>
+                    <li id='GoogleSignIn'>
                         <span class="g-signin"
                         data-scope="openid email"
                         data-clientid="{{ CLIENT_TOKEN }}"
@@ -47,31 +46,34 @@
                 </ul>
             </div>
             </div>
-		</nav>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
-				<div class="contents">
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                <div class="contents">
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>
+                                <div id="restricted"></div>
                                 </p>
                                 <div id="result"></div>
                             </div>
                         </div>
-                    </div>
+                        </div>
 
-                    <div class="row">
-                        <a>menustuff</a>
+                        <div class="row">
+
+                        </div>
+
                     </div>
                 </div>
-				</div>
-				<div class="col-md-2"></div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
     <script>
     function signInCallback(authResult) {
         if (authResult['code']) {
@@ -98,7 +100,14 @@
             }
     }
     </script>
-
+    <script>
+    if ("{{ username }}") {
+        document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
+    }
+    else {
+        console.log('Not logged in');
+    }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

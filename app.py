@@ -47,19 +47,16 @@ def index():
         CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
 
 @app.route('/<int:restaurant_id>/menu/')
-def editRestaurant(restaurant_id):
-    """ Edit restaurant """
-    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
-    restaurant_name = restaurant.name
-    title = "Welp: " + str(restaurant_name)
-    return render_template('menu.html', title=title,\
-        restaurant=restaurant)
-
-@app.route('/<int:restaurant_id>/menu/')
 def menu(restaurant_id):
     """Displays menu of choosen restaurant"""
     title = "Welp: Restaurant Menu"
-    return render_template('index.html', title=title)
+    restaurant = session.query(Restaurant).filter_by(id = restaurant_id)
+    if 'username' in login_session:
+        username = login_session['username']
+        picture = login_session['picture']
+        return render_template('menu.html', title=title,\
+            restaurant = restaurant, username = username, picture = picture, CLIENT_TOKEN = CLIENT_TOKEN)
+    return render_template('menu.html', title=title, CLIENT_TOKEN = CLIENT_TOKEN)
     
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
