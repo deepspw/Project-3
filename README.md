@@ -14,17 +14,24 @@ flask application to be used with restaurant data.
     - sqlalchemy
     - python-requests
     - Flask
+    - google places api key
+    - google oAuth client ID
  
 ### How to use
 
-Run db_setup.py to create your initial database.
-Follow this up by running restaurantGather.py in order
-to populate the database. Both these commands are found in
-the db folder. After run app.py found in the route folder
-to start the flask web server. Access by going onto host
-specified in the app.py app.run().
+Enter your google places, and google oAuth client id into 
+the gAPI.py file in the allocated slots. You will also need
+to download your client ID json from the [google developers 
+console]{https://console.developers.google.com}. Be sure
+to authorise your domain or local host + authorised redirects.
+Once downloaded place in the same folder as gAPI.py and name 
+it client_secrets.json
+
+After run setup.py
+This will create your database and populate it with data from
+the google places API. You can alter the parameters of data you
+want from db/db_setup.py. Run app.py to run the app, with all luck
+you can now navigate to your domain of choice and use the website
+from your browser.
 
 
-### Urgent fixes
-
-    - bootstrap image grid
