@@ -41,13 +41,13 @@ def index():
         restaurant=restaurant,\
         CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
 
-@app.route('/<int:restaurant_id>/edit/')
+@app.route('/<int:restaurant_id>/menu/')
 def editRestaurant(restaurant_id):
     """ Edit restaurant """
-    restaurant = session.query(Restaurant).filter_by(restaurant_id = id)
+    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
     restaurant_name = restaurant.name
-    title = "Welp: Edit restaurant" + str(restaurant_name)
-    return render_template('index.html', title=title,\
+    title = "Welp: " + str(restaurant_name)
+    return render_template('menu.html', title=title,\
         restaurant=restaurant)
 
 @app.route('/<int:restaurant_id>/menu/')
