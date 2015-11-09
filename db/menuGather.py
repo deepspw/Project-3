@@ -1,41 +1,19 @@
-# Initial attempt at scraping for menu items using bs4
-
-from bs4 import BeautifulSoup
-import requests
-
-import json
-
-import sys
-sys.path.append("../..")
-from gAPI import ACCESS_TOKEN
-
-from sqlalchemy import create_engine, and_, asc, desc, func, update
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Restaurant, MenuItem
-
+from db_setup import Restaurant, Base, MenuItem, Tags
+import random
 engine = create_engine('sqlite:///restaurant.db')
 Base.metadata.bind = engine
+
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
- 
-db = session.query(Restaurant).all()
 
-#for e in db:
-print db[1].place_id
-print db[1].name
-url = requests.get("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + db[1].place_id + "&key=" + ACCESS_TOKEN)
-url = url.text
-url = json.loads(url)
-url = url["result"]
-website = url["website"]
+rest_ammount = len(session.query(Restaurant).all())
 
-menurequest = requests.get(website)
-menurequest = menurequest.text
-soup = BeautifulSoup(menurequest, "html.parser")
-
-for link in soup.find_all('a'):
-	print link.get_text('menu')
-
-
-# div class="Ny qkb"
-#	<a href=
+random_int = random.randint(0, rest_ammount)
+print random_int
+rest = session.query(Restaurant).filter_by(id = random_int).one()
+print rest.name
+MenuItem1 = MenuItem(name="Fish Cake", course = 'Entree', description='Fish cake patty with tartar sauce', price = "$6.00", restaurant = rest )
+session.add(MenuItem1)
+session.commit()

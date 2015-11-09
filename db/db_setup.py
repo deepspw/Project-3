@@ -75,8 +75,8 @@ class Tags(Base):
 
         
 
-if not os.path.isfile('db/restaurant.db'):
-    engine = create_engine(
-        'sqlite:///db/restaurant.db')
-    Base.metadata.create_all(engine)
+# if not os.path.isfile('db/restaurant.db'): # For initial installation, breaks menugather
+    # engine = create_engine(
+        # 'sqlite:///db/restaurant.db')
+    # Base.metadata.create_all(engine)
 
