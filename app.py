@@ -34,9 +34,11 @@ def index():
     """Main page displaying restaurants"""
     title = "Welp: Restaurants"
     restaurant = session.query(Restaurant).all()
+    # Generates state token
     state = ''.join(random.choice(string.ascii_uppercase +\
         string.digits) for x in xrange(32))
     login_session['state'] = state
+    # If user logged in fill data
     if 'username' in login_session:
         username = login_session['username']
         picture = login_session['picture']
@@ -51,6 +53,19 @@ def menu(restaurant_id):
     """Displays menu of choosen restaurant"""
     title = "Welp: Restaurant Menu"
     restaurant = session.query(Restaurant).filter_by(id = restaurant_id)
+    # Login Check
+    if 'username' in login_session:
+        username = login_session['username']
+        picture = login_session['picture']
+        return render_template('menu.html', title=title,\
+            restaurant = restaurant, username = username, \
+                picture = picture, CLIENT_ID = CLIENT_ID)
+    # If not logged in, generate state token
+    else:
+        state = ''.join(random.choice(string.ascii_uppercase +\
+            string.digits) for x in xrange(32))
+        login_session['state'] = state
+    return render_template('menu.html', title=title, STATE = state, restaurant = restaurant, CLIENT_ID = CLIENT_ID)
 
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
