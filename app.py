@@ -41,23 +41,17 @@ def index():
         username = login_session['username']
         picture = login_session['picture']
         return render_template('index.html', title=title,\
-            restaurant = restaurant, CLIENT_TOKEN = CLIENT_TOKEN, STATE = state, username = username, picture = picture)
+            restaurant = restaurant, STATE = state, username = username, \
+                picture = picture, CLIENT_ID = CLIENT_ID)
     return render_template('index.html', title=title,\
-        restaurant=restaurant,\
-        CLIENT_TOKEN = CLIENT_TOKEN, STATE = state)
+        restaurant=restaurant, STATE = state, CLIENT_ID = CLIENT_ID)
 
 @app.route('/<int:restaurant_id>/menu/')
 def menu(restaurant_id):
     """Displays menu of choosen restaurant"""
     title = "Welp: Restaurant Menu"
     restaurant = session.query(Restaurant).filter_by(id = restaurant_id)
-    if 'username' in login_session:
-        username = login_session['username']
-        picture = login_session['picture']
-        return render_template('menu.html', title=title,\
-            restaurant = restaurant, username = username, picture = picture, CLIENT_TOKEN = CLIENT_TOKEN)
-    return render_template('menu.html', title=title, CLIENT_TOKEN = CLIENT_TOKEN)
-    
+
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
     # """Displays a list of restaurants with
@@ -176,6 +170,12 @@ def gdisconnect():
         
         response = make_response(json.dumps\
             ('successfully disconnected. '), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        # For whatever reason, the given token was invalid.
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 if __name__ == '__main__':
