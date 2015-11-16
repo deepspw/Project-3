@@ -109,5 +109,7 @@ for e in jDict:
         tags = Tags(restaurant=restaurant, tag=type)
         session.add(tags)
         session.commit()
+        
+
 
 
