@@ -70,6 +70,8 @@ def menu(restaurant_id):
         login_session['state'] = state
     return render_template('menu.html', title=title, STATE = state, restaurant = restaurant, CLIENT_ID = CLIENT_ID, menu=menu)
 
+
+
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
     # """Displays a list of restaurants with

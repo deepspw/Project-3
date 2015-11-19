@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Restaurant, Base, MenuItem, Tags
 import random
-engine = create_engine('sqlite:///restaurant.db')
+engine = create_engine('sqlite:///db/restaurant.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
