@@ -55,9 +55,7 @@
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p>
-                                <div id="restricted"></div>
-                                </p>
+
                                 <div id="result"></div>
                             </div>
                         </div>
@@ -73,9 +71,11 @@
                                 <p>{{ item.description }}</p>
                                 <a>{{ item.price }}</a>
                                 </br>
-                                <a href="{{ item.id }}/add/">add</a>
-                                <a href="{{ item.id }}/edit/">edit</a>
-                                <a href="{{ item.id }}/delete/">delete</a>
+                                <div class="restricted">
+                                    <a href="{{ item.id }}/add/">add</a>
+                                    <a href="{{ item.id }}/edit/">edit</a>
+                                    <a href="{{ item.id }}/delete/">delete</a>
+                                </div>
                                 </div>
                             </div>
                             {% endfor %}
@@ -86,8 +86,7 @@
                 </div>
                 <div class="col-md-2"></div>
             </div>
-        </div>
-    </div>
+    </body>
     <script>
     function signInCallback(authResult) {
         if (authResult['code']) {
@@ -115,13 +114,32 @@
     }
     </script>
     <script>
-    if ("{{ username }}") {
-        document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
-    }
-    else {
-        console.log('Not logged in');
-    }
+        if ("{{ username }}") {
+            document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
+        }
+        else {
+            console.log('Not logged in');
+        }
     </script>
+    <script>
+        function hideRestricted(elements){
+            elements = elements.length ? elements : [elements];
+            for (var index =0; index < elements.length; index ++){
+                elements[index].style.display = 'none';
+            }
+        }
+        if ("{{ username }}") {
+            console.log('logged in');
+        }
+        else{
+            hideRestricted(document.querySelectorAll('.restricted'));
+            hideRestricted(document.querySelector('.restricted'));
+            hideRestricted(document.getElementById('restricted'));
+            console.log('logged out');
+        }
+
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
