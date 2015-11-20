@@ -70,8 +70,17 @@ def menu(restaurant_id):
         login_session['state'] = state
     return render_template('menu.html', title=title, STATE = state, restaurant = restaurant, CLIENT_ID = CLIENT_ID, menu=menu)
 
-
-
+@app.route('/<int:restaurant_id>/menu/<int:item>/add/')
+def add(restaurant_id, item):
+    """Add item menu"""
+    if 'username' in login_session:
+        username = login_session['username']
+        picture = login_session['picture']
+        return render_template('edits.html',\
+            username = username, CLIENT_ID = CLIENT_ID)
+    else:
+        return redirect(url_for('index'))
+        
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
     # """Displays a list of restaurants with
