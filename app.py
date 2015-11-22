@@ -75,7 +75,6 @@ def addMenu(restaurant_id, menu_id):
     """Add item menu"""
     if 'username' in login_session:
         username = login_session['username']
-        print request.method
         if request.method == 'POST':
             newItem = MenuItem(
                 name = request.form['name'],
@@ -83,7 +82,6 @@ def addMenu(restaurant_id, menu_id):
                 description = request.form['description'],
                 price = request.form['price'],
                 restaurant_id = restaurant_id)
-            print newItem
             session.add(newItem)
             session.commit()
             flash("New item successfully added")
@@ -92,6 +90,49 @@ def addMenu(restaurant_id, menu_id):
             return render_template('edits.html',\
                 username = username, CLIENT_ID = CLIENT_ID)
     else:
+        flash("You must login before adding items")
+        return redirect(url_for('index'))
+        
+@app.route('/<int:restaurant_id/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
+def editMenu(restaurant_id, menu_id):
+    """Edit menu item"""
+    if 'username' in login_session:
+        username = login_session['username']
+        targetItem = session.query(MenuItem).filter_by(id = menu_id).one()
+        if request.method == 'POST':
+            if request.form['name'] or request.form['description'] or request.form['price'] or request.form['course']:
+                targetItem.name = request.form['name']
+                targetItem.description = request.form['description']
+                targetItem.price = request.form['price']
+                targetItem.course = request.form['course']
+                targetItem.id = menu_id
+                targetItem.restaurant_id = restaurant_id
+                session.add(targetItem)
+                session.commit()
+                flash("Edit successfully saved")
+            return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
+        else:
+            return render_template('edits.html', username = username, CLIENT_ID = CLIENT_ID)
+    else:
+        flash("You must login before editing items")
+        return redirect(url_for('index'))
+            
+@app.route('/<int:restaurant_id/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
+def deleteMenu(restaurant_id, menu_id):
+    """Delete menu item"""
+    if 'username' in login_session:
+        username = login_session['username']
+        targetItem = session.query(MenuItem).filter_by(id = menu_id).one()
+        if request.method  == 'POST':
+            if request.form['delete'] == 'delete':
+                session.delete(targetItem)
+                session.commit()
+                flash("Item successfully deleted")
+            return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
+        else:
+            return render_template('delete.html', username = username, CLIENT_ID = CLIENT_ID)
+    else:
+        flash("You must login before deleting items")
         return redirect(url_for('index'))
         
 # @app.route('/tagged/<int:tag_id>/')
