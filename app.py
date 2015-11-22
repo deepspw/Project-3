@@ -70,14 +70,27 @@ def menu(restaurant_id):
         login_session['state'] = state
     return render_template('menu.html', title=title, STATE = state, restaurant = restaurant, CLIENT_ID = CLIENT_ID, menu=menu)
 
-@app.route('/<int:restaurant_id>/menu/<int:item>/add/')
-def add(restaurant_id, item):
+@app.route('/<int:restaurant_id>/menu/<int:menu_id>/add/', methods=['GET', 'POST'])
+def addMenu(restaurant_id, menu_id):
     """Add item menu"""
     if 'username' in login_session:
         username = login_session['username']
-        picture = login_session['picture']
-        return render_template('edits.html',\
-            username = username, CLIENT_ID = CLIENT_ID)
+        print request.method
+        if request.method == 'POST':
+            newItem = MenuItem(
+                name = request.form['name'],
+                course = request.form['course'],
+                description = request.form['description'],
+                price = request.form['price'],
+                restaurant_id = restaurant_id)
+            print newItem
+            session.add(newItem)
+            session.commit()
+            flash("New item successfully added")
+            return redirect(url_for('menu', restaurant_id = restaurant_id, username=username))
+        else:
+            return render_template('edits.html',\
+                username = username, CLIENT_ID = CLIENT_ID)
     else:
         return redirect(url_for('index'))
         
