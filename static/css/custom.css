@@ -32,3 +32,7 @@
 .nav>li>a:hover {
     background-color: #C21511;
 }
+
+form{
+    text-align:right;
+}

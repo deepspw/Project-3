@@ -70,8 +70,8 @@ def menu(restaurant_id):
         login_session['state'] = state
     return render_template('menu.html', title=title, STATE = state, restaurant = restaurant, CLIENT_ID = CLIENT_ID, menu=menu)
 
-@app.route('/<int:restaurant_id>/menu/<int:menu_id>/add/', methods=['GET', 'POST'])
-def addMenu(restaurant_id, menu_id):
+@app.route('/<int:restaurant_id>/menu/add/', methods=['GET', 'POST'])
+def addMenu(restaurant_id):
     """Add item menu"""
     if 'username' in login_session:
         username = login_session['username']
@@ -87,13 +87,13 @@ def addMenu(restaurant_id, menu_id):
             flash("New item successfully added")
             return redirect(url_for('menu', restaurant_id = restaurant_id, username=username))
         else:
-            return render_template('edits.html',\
-                username = username, CLIENT_ID = CLIENT_ID)
+            return render_template('add.html',\
+                username = username, CLIENT_ID = CLIENT_ID, restaurant_id = restaurant_id)
     else:
         flash("You must login before adding items")
         return redirect(url_for('index'))
         
-@app.route('/<int:restaurant_id/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
+@app.route('/<int:restaurant_id>/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
 def editMenu(restaurant_id, menu_id):
     """Edit menu item"""
     if 'username' in login_session:
@@ -112,12 +112,12 @@ def editMenu(restaurant_id, menu_id):
                 flash("Edit successfully saved")
             return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
         else:
-            return render_template('edits.html', username = username, CLIENT_ID = CLIENT_ID)
+            return render_template('edit.html', username = username, CLIENT_ID = CLIENT_ID)
     else:
         flash("You must login before editing items")
         return redirect(url_for('index'))
             
-@app.route('/<int:restaurant_id/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
+@app.route('/<int:restaurant_id>/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
 def deleteMenu(restaurant_id, menu_id):
     """Delete menu item"""
     if 'username' in login_session:

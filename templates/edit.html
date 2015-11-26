@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <form action="{{url_for( 'editMenu', restaurant_id=restaurant_id )}}" method='POST'>
+    Edit
+    <br>
+    Name:
+    <input type="text" name="name">
+    Course:
+    <br>
+    <input type="text" name="course">
+    Description:
+    <br>
+    <input type="text" name="description">
+    Price:
+    <input type="price" name="price">
+    <br>
+    <input type="submit" value="submit">
+    </form>
+</body>
