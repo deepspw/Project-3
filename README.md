@@ -22,7 +22,7 @@ flask application to be used with restaurant data.
 Enter your google places, and google oAuth client id into 
 the gAPI.py file in the allocated slots. You will also need
 to download your client ID json from the [google developers 
-console]{https://console.developers.google.com}. Be sure
+console](https://console.developers.google.com). Be sure
 to authorise your domain or local host + authorised redirects.
 Once downloaded place in the same folder as gAPI.py and name 
 it client_secrets.json

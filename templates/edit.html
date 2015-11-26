@@ -2,23 +2,34 @@
 <html lang="en">
 
 <head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 
 <body>
-    <form action="{{url_for( 'editMenu', restaurant_id=restaurant_id )}}" method='POST'>
-    Edit
-    <br>
-    Name:
-    <input type="text" name="name">
-    Course:
-    <br>
-    <input type="text" name="course">
-    Description:
-    <br>
-    <input type="text" name="description">
-    Price:
-    <input type="price" name="price">
-    <br>
-    <input type="submit" value="submit">
-    </form>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form action="{{url_for( 'editMenu', restaurant_id=restaurant_id, menu_id=menu_id )}}" method='POST'>
+                <h3>Edit {{ menu.name }}</h3>
+                <br>
+                <h3>Name:</h3>
+                <input type="text" name="name" placeholder="{{ menu.name }}">
+                <h3>Course:</h3>
+                <br>
+                <input type="text" name="course" placeholder="{{ menu.course }}">
+                <h3>Description:</h3>
+                <br>
+                <input type="text" name="description" placeholder="{{ menu.description }}">
+                <h3>Price:</h3>
+                <input type="price" name="price" placeholder="{{ menu.price }}" width="30px">
+                <br>
+                <input type="submit" value="submit">
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>

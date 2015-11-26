@@ -96,6 +96,7 @@ def addMenu(restaurant_id):
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
 def editMenu(restaurant_id, menu_id):
     """Edit menu item"""
+    menu = session.query(MenuItem).filter_by(id = menu_id).one()
     if 'username' in login_session:
         username = login_session['username']
         targetItem = session.query(MenuItem).filter_by(id = menu_id).one()
@@ -112,7 +113,9 @@ def editMenu(restaurant_id, menu_id):
                 flash("Edit successfully saved")
             return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
         else:
-            return render_template('edit.html', username = username, CLIENT_ID = CLIENT_ID)
+            return render_template('edit.html', username = username,\
+                CLIENT_ID = CLIENT_ID, restaurant_id = restaurant_id,\
+                menu = menu, menu_id = menu_id)
     else:
         flash("You must login before editing items")
         return redirect(url_for('index'))
@@ -120,17 +123,22 @@ def editMenu(restaurant_id, menu_id):
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
 def deleteMenu(restaurant_id, menu_id):
     """Delete menu item"""
+    menu = session.query(MenuItem).filter_by(id = menu_id).one()
     if 'username' in login_session:
         username = login_session['username']
         targetItem = session.query(MenuItem).filter_by(id = menu_id).one()
         if request.method  == 'POST':
-            if request.form['delete'] == 'delete':
+            if request.form['submit'] == "Delete":
+                print "Deleting " + str(targetItem.id)
                 session.delete(targetItem)
                 session.commit()
                 flash("Item successfully deleted")
             return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
         else:
-            return render_template('delete.html', username = username, CLIENT_ID = CLIENT_ID)
+            return render_template('delete.html',\
+                username = username, CLIENT_ID = CLIENT_ID,\
+                restaurant_id = restaurant_id, menu = menu,\
+                menu_id = menu_id)
     else:
         flash("You must login before deleting items")
         return redirect(url_for('index'))
