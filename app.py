@@ -142,7 +142,12 @@ def deleteMenu(restaurant_id, menu_id):
     else:
         flash("You must login before deleting items")
         return redirect(url_for('index'))
-        
+
+@app.route('/<int:restaurant_id>/menu/json')
+def restaurantJSON(restaurant_id):
+    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+    items = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
+    return jsonify(MenuItems=[i.serialize for i in items])
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
     # """Displays a list of restaurants with
