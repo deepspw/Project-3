@@ -70,14 +70,20 @@
 
                         <div class="row">
                             {% for item in menu %}
+                            {% if loop.index != 3 %}
+                                {% if loop.index % 3 == 0 or loop.first %}
+                                    <div class="row">
+                                {% endif %}
+                            {% endif %}
                             <div class="col-md-4">
-                                <div class="thumbnail" style="height:240px;">
-                                <img alt="{{ item.name }}" src="../../static/images/{{ item.image }}.png" style="width:100%; max-width:240px; max-height: 200px;">
-                                <h4>{{ item.name }}</h4>
-                                <h5>{{ item.course }}</h5>
-                                <p>{{ item.description }}</p>
-                                <a>{{ item.price }}</a>
-                                </br>
+                                <div class="thumbnail">
+                                <img alt="{{ item.name }}" src="{{ item.image }}" style="max-width:240px; max-height: 200px;">
+                                    <div class="caption">
+                                    <h4>{{ item.name }}</h4>
+                                    <p>{{ item.course }}</p>
+                                    <p>{{ item.description }}</p>
+                                    <a>{{ item.price }}</a>
+                                    </div>
                                 <div class="restricted">
                                     <a href="/{{ item.restaurant_id }}/menu/add/">add</a>
                                     <a href="/{{ item.restaurant_id }}/menu/{{ item.id }}/edit/">edit</a>
@@ -85,6 +91,9 @@
                                 </div>
                                 </div>
                             </div>
+                            {% if loop.index % 3 == 0 %}
+                                </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
 
