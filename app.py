@@ -101,16 +101,22 @@ def editMenu(restaurant_id, menu_id):
         username = login_session['username']
         targetItem = session.query(MenuItem).filter_by(id = menu_id).one()
         if request.method == 'POST':
-            if request.form['name'] or request.form['description'] or request.form['price'] or request.form['course']:
+            if request.form['name']:
                 targetItem.name = request.form['name']
+            if request.form['description']:
                 targetItem.description = request.form['description']
+            if request.form['price']:
                 targetItem.price = request.form['price']
+            if request.form['course']:
                 targetItem.course = request.form['course']
-                targetItem.id = menu_id
-                targetItem.restaurant_id = restaurant_id
-                session.add(targetItem)
-                session.commit()
-                flash("Edit successfully saved")
+            if request.form['image']:
+                targetItem.image = request.form['image']
+            
+            targetItem.id = menu_id
+            targetItem.restaurant_id = restaurant_id
+            session.add(targetItem)
+            session.commit()
+            flash("Edit successfully saved")
             return redirect(url_for('menu', restaurant_id = restaurant_id, username = username))
         else:
             return render_template('edit.html', username = username,\
