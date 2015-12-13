@@ -1,3 +1,4 @@
+
 # Flask imports
 from flask import Flask, render_template, url_for, redirect,\
 	request, flash, jsonify, make_response
@@ -14,6 +15,10 @@ from oauth2client.client import FlowExchangeError
 import httplib2
 import json
 import requests
+# xml imports
+from xml.etree import ElementTree
+from xml.etree.ElementTree import Element, SubElement, Comment, tostring
+from xml.dom import minidom
 
 app = Flask(__name__)
 
@@ -154,6 +159,33 @@ def restaurantJSON(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
     items = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
     return jsonify(MenuItems=[i.serialize for i in items])
+
+@app.route('/<int:restaurant_id>/menu/xml')    
+def restaurantXML(restaurant_id):
+    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+    items = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
+    top = Element('MenuItems')
+    comment = Comment('XML endpoint for all the menu items of given restaurant')
+    top.append(comment)
+    for i in items:
+        menu = SubElement(top, 'menu')
+        child = SubElement(menu, 'id')
+        child.text = str(i.id)
+        child = SubElement(menu, 'name')
+        child.text = i.name
+        child = SubElement(menu, 'course')
+        child.text = i.course
+        child = SubElement(menu, 'description')
+        child.text = i.description
+        child = SubElement(menu, 'price')
+        child.text = str(i.price)
+        child = SubElement(menu, 'image')
+        child.text = i.image
+    unparsedstring = ElementTree.tostring(top, 'utf-8')
+    parsed = minidom.parseString(unparsedstring)
+    return parsed.toprettyxml(indent="  ")
+
+
 # @app.route('/tagged/<int:tag_id>/')
 # def tagged(tag_id):
     # """Displays a list of restaurants with
