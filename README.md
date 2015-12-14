@@ -1,6 +1,6 @@
 ## Project 3 - Restaurant app
 
-[@pgpnda](https://github.com/pgpnda/Project-3)
+[@pgpnda](https://github.com/pgpnda/Project-3)'s Udacity Project 3
 
 ### Description
 
@@ -34,4 +34,6 @@ want from db/db_setup.py. Run app.py to run the app, with all luck
 you can now navigate to your domain of choice and use the website
 from your browser.
 
-
+If unable to use your own api key there is a live demo at [tomball.me](www.tomball.me)
+Although google oAuth does not work on this version and thus you wont
+be able to edit items.
