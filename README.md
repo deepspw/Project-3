@@ -34,6 +34,6 @@ want from db/db_setup.py. Run app.py to run the app, with all luck
 you can now navigate to your domain of choice and use the website
 from your browser.
 
-If unable to use your own api key there is a live demo at [www.tomball.me](www.tomball.me)
+If unable to use your own api key there is a live demo at www.tomball.me
 Although google oAuth does not work on this version and thus you wont
 be able to edit items.
