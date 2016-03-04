@@ -11,7 +11,7 @@ import requests
 # with the line ACCESS_TOKEN = "YOUR API KEY"
 # Though feel free the edit the next two lines
 # If you wish to use a different location or format.
-sys.path.append("../..")
+sys.path.append("..")
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from gAPI import ACCESS_TOKEN
