@@ -51,7 +51,12 @@ def index():
         restaurant=restaurant, STATE=state, CLIENT_ID=CLIENT_ID)
 @app.route('/<int:restaurant_id>/menu/')
 def restaurant_menu(restaurant_id):
-    """Displays menu of choosen restaurant"""
+    """Displays menu of choosen restaurant
+    Arguments:
+        restaurant_id (int): the id of restaurant returned
+    Returns:
+        The template of chosen restaurant id
+    """
     title = "Welp: Restaurant Menu"
     restaurant = SESSION.query(Restaurant).filter_by\
         (id=restaurant_id)
@@ -96,7 +101,12 @@ def add_menu(restaurant_id):
         return redirect(url_for('index'))
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
 def edit_menu(restaurant_id, menu_id):
-    """Edit menu item"""
+    """Edit menu item
+    Arguments:
+        restaurant_id (int), menu_id (int) : Both arguments are required
+    Returns:
+        The edit menu template OR index if username is not found in login session
+    """
     menu = SESSION.query(MenuItem).filter_by(id=menu_id).one()
     if 'username' in login_session:
         username = login_session['username']
@@ -127,7 +137,13 @@ def edit_menu(restaurant_id, menu_id):
         return redirect(url_for('index'))
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
 def delete_menu(restaurant_id, menu_id):
-    """Delete menu item"""
+    """Delete menu item
+    Arguments:
+        restaurant_id (int), menu_id (int) : Both arguements are required
+    Returns:
+        Deletes the item from database and returns to restaurant menu
+        OR index if username is not found in login session
+    """
     menu = SESSION.query(MenuItem).filter_by(id=menu_id).one()
     if 'username' in login_session:
         username = login_session['username']
@@ -149,12 +165,22 @@ def delete_menu(restaurant_id, menu_id):
         return redirect(url_for('index'))
 @app.route('/<int:restaurant_id>/menu/json')
 def restaurant_json(restaurant_id):
-    """Returns json of menu items"""
+    """Returns json of menu items
+        Arguments:
+            restaurant_id (int)
+        Returns:
+            json file of selected restaurants content
+    """
     items = SESSION.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
     return jsonify(MenuItems=[i.serialize for i in items])
 @app.route('/<int:restaurant_id>/menu/xml')
 def restaurant_xml(restaurant_id):
-    """Returns an xml of menu items"""
+    """Returns XML of menu items
+        Arguments:
+            restaurant_id (int)
+        Returns:
+            XML file of selected restaurants content
+    """
     items = SESSION.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
     top = Element('MenuItems')
     comment = Comment('XML endpoint for all the menu items of given restaurant')
@@ -285,5 +311,5 @@ if __name__ == '__main__':
 # Make sure to use a remote secret key on a live
 # server in order to keep the site secure.
     app.secret_key = 'super_secret_key'
-    app.debug = True
+    app.debug = False
     app.run(host='0.0.0.0', port=5000)
