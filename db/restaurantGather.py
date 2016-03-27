@@ -87,7 +87,7 @@ DBSESSION = sessionmaker(bind=ENGINE)
 SESSION = DBSESSION()
 # Populates database with restaurant names, and image strings.
 for e in j_dict:
-    restaurant = Restaurant(name=e['name'], image=str(e['id']), place_id=e['place_id'])
+    restaurant = Restaurant(name=e['name'], image=str(e['id']) + '.png', place_id=e['place_id'])
     SESSION.add(restaurant)
     SESSION.commit()
 # Populates the tags table in relationship to the restaurants assigned.

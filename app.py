@@ -10,6 +10,10 @@ from xml.dom import minidom
 # web imports
 import httplib2
 import requests
+# Werzerg secure filename
+from werkzeug import secure_filename
+#
+import os
 # Flask imports
 from flask import Flask, render_template, url_for, redirect,\
 	request, flash, jsonify, make_response, session as\
@@ -31,6 +35,15 @@ ENGINE = create_engine('sqlite:///db/restaurant.db')
 Base.metadata.bind = ENGINE
 DBSESSION = sessionmaker(bind=ENGINE)
 SESSION = DBSESSION()
+UPLOAD_FOLDER = 'static/images/'
+print UPLOAD_FOLDER
+ALLOWED_EXTENTIONS = set((['jpg', 'png', 'jpeg']))
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    """Checks filename against allowed files"""
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1] in ALLOWED_EXTENTIONS
 @app.route('/')
 def index():
     """Main page displaying restaurants"""
@@ -77,6 +90,32 @@ def restaurant_menu(restaurant_id):
         login_session['state'] = state
     return render_template('menu.html', title=title, STATE=state, \
         restaurant=restaurant, CLIENT_ID=CLIENT_ID, menu=menu)
+@app.route('/add_restaurant/', methods=['GET', 'POST'])
+def add_restaurant():
+    """Add a restaurant"""
+    if 'username' in login_session:
+        username = login_session['username']
+        if request.method == 'POST':
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image = request.form['name']
+            else:
+                image="NoImage"
+            new_restaurant = Restaurant(
+                name=request.form['name'],
+                image=filename)
+            SESSION.add(new_restaurant)
+            SESSION.commit()
+            flash("New restaurant successfully added")
+            return redirect(url_for('index', username=username))
+        else:
+            return render_template('add_restaurant.html',\
+                username=username, CLIENT_ID=CLIENT_ID)
+    else:
+        flash("You must login before adding items")
+        return redirect(url_for('index'))   
 @app.route('/<int:restaurant_id>/menu/add/', methods=['GET', 'POST'])
 def add_menu(restaurant_id):
     """Add item menu"""
@@ -311,5 +350,5 @@ if __name__ == '__main__':
 # Make sure to use a remote secret key on a live
 # server in order to keep the site secure.
     app.secret_key = 'super_secret_key'
-    app.debug = False
+    app.debug = True
     app.run(host='0.0.0.0', port=5000)
