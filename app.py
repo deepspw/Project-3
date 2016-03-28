@@ -208,6 +208,26 @@ def edit_menu(restaurant_id, menu_id):
     else:
         flash("You must login before editing items")
         return redirect(url_for('index'))
+@app.route('/<int:restaurant_id>/delete_restaurant/', methods=['GET', 'POST'])
+def delete_restaurant(restaurant_id):
+    restaurant = SESSION.query(Restaurant).filter_by(id=restaurant_id).one()
+    if 'username' in login_session:
+        target_restaurant = SESSION.query(Restaurant).filter_by(id=restaurant_id).one()
+        username = login_session['username']
+        if request.method == 'POST':
+            if request.form['submit'] == "Delete":
+                print "Deleting" + str(target_restaurant.id)
+                SESSION.delete(target_restaurant)
+                SESSION.commit()
+                flash("Item successfully deleted")
+                return redirect(url_for('index', username=username))
+        else:
+            return render_template('delete_restaurant.html',\
+                username=username, CLIENT_ID=CLIENT_ID, restaurant_id=restaurant_id,\
+                restaurant = restaurant)
+    else:
+        flash("You must login before deleing restaurants")
+        return redirect(url_for('index'))
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])
 def delete_menu(restaurant_id, menu_id):
     """Delete menu item
