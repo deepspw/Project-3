@@ -55,9 +55,6 @@
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p>
-                                <div id="restricted"></div>
-                                </p>
                                 <div id="result">
                                 {% with messages = get_flashed_messages() %}
                                     {% if messages %}
@@ -68,11 +65,11 @@
                                         </ul>
                                     {% endif %}
                                 {% endwith %}
+                                <div class="restricted"><a href="/add_restaurant">Add restaurant</a></div>
                                 </div>
                             </div>
                         </div>
                         </div>
-
                         <div class="row">
                             {% for i in restaurant %}
                             {% if loop.index != 3 %}
@@ -128,6 +125,24 @@
     }
     </script>
     <script>
+        function hideRestricted(elements){
+            elements = elements.length ? elements : [elements];
+            for (var index =0; index < elements.length; index ++){
+                elements[index].style.display = 'none';
+            }
+        }
+        if ("{{ username }}") {
+            console.log('logged in');
+        }
+        else{
+            hideRestricted(document.querySelectorAll('.restricted'));
+            hideRestricted(document.querySelector('.restricted'));
+            hideRestricted(document.getElementById('restricted'));
+            console.log('logged out');
+        }
+
+    </script>
+    <script>
     if ("{{ username }}") {
         document.getElementById('GoogleSignIn').innerHTML = "<li><a href='/gdisconnect' style='color:white;'>Log out of {{ username }} </a><img src='{{ picture }}' style='width; 50px; height: 50px;'></img></li>";
     }
@@ -135,6 +150,7 @@
         console.log('Not logged in');
     }
     </script>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
