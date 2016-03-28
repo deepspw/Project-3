@@ -84,6 +84,10 @@
                                 <img alt="{{ i.name }}" src="../static/images/{{ i.image }}" style="width:100%;max-width:240px; max-height:200px;" href="{{ i.id }}/menu">
                                 </a>
                                 </div>
+                                <div class="restricted">
+                                    <a href="/{{ i.id }}/edit_restaurant/">Edit restaurant</a>
+                                    <a href="/{{ i.id}}/delete_restaurant/">Delete restaurant</a>
+                                </div>
                             </div>
                             {% if loop.index % 3 == 0 %}
                                 </div>

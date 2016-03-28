@@ -138,6 +138,40 @@ def add_menu(restaurant_id):
     else:
         flash("You must login before adding items")
         return redirect(url_for('index'))
+@app.route('/<int:restaurant_id>/edit_restaurant/', methods=['GET', 'POST'])
+def edit_restaurant(restaurant_id):
+    """Edit restaurant
+    Arguments:
+        restaurant_id (int)
+    Returns:
+        Renders the template for editing choosen restaurant if username is in
+        login session.
+    """
+    restaurant = SESSION.query(Restaurant).filter_by(id=restaurant_id).one()
+    if 'username' in login_session:
+        username = login_session['username']
+        target_item = SESSION.query(Restaurant).filter_by(id=restaurant_id).one()
+        if request.method == 'POST':
+            if request.form['name']:
+                target_item.name = request.form['name']
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                target_item.image = filename
+            else:
+                target_item.image = "NoImage"
+            target_item.id = restaurant_id
+            SESSION.add(target_item)
+            SESSION.commit()
+            flash("Edit successfully saved")
+            return redirect(url_for('index', username=username))
+        else:
+            return render_template('edit_restaurant.html', username=username,\
+                CLIENT_ID=CLIENT_ID, restaurant_id=restaurant_id, restaurant=restaurant)
+    else:
+        flash('You must login before editing')
+        return redirect(url_for('index'))
 @app.route('/<int:restaurant_id>/menu/<int:menu_id>/edit/', methods=['GET', 'POST'])
 def edit_menu(restaurant_id, menu_id):
     """Edit menu item
